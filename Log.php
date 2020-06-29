@@ -172,7 +172,7 @@ class Log
         //end writing
 
         if ($engineForceStop){
-            throw new Exception(PHP_EOL . 'Log saved...' . '<br>' . PHP_EOL . 'Engine force stop...' . PHP_EOL);
+            die(PHP_EOL . 'Log saved...' . '<br>' . PHP_EOL . 'Engine force stop...' . PHP_EOL);
         }
     }
 
