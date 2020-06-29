@@ -65,7 +65,6 @@ class Log
 
         /** if engine config allows save logs */
 
-
         /** check if folder exists */
         if (!is_dir($projectFolder)) {
             try {
