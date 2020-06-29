@@ -171,7 +171,7 @@ class Log
 
         //end writing
 
-        if ($engineForceStop){
+        if ($engineForceStop) {
             die(PHP_EOL . 'Log saved...' . '<br>' . PHP_EOL . 'Engine force stop...' . PHP_EOL);
         }
     }
@@ -207,14 +207,7 @@ class Log
             . '<!-- ----------------------------------------------------------------------------- -->' . PHP_EOL
             . '<!-- ----------------------------------------------------------------------------- -->' . PHP_EOL;
 
-
-        if (isset($_GET['method']) && $_GET['method'] == 'json') {
-            global $err;
-            $err .= $text;
-        } else {
-            echo $text;
-        }
-
+        echo $text;
     }
 
     /**
