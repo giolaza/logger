@@ -47,10 +47,8 @@ class Log
         } else {
             $projectFolder = $_SERVER['DOCUMENT_ROOT'];
         }
-        if (strtolower(substr($filename, -4)) != '.log') {
-            $filename .= '.log';
 
-        }
+        $filename .= '.log';
         $fileLink = $projectFolder . '/___' . $filename;
 
         if ($displayErrors) {
@@ -71,7 +69,7 @@ class Log
         if (!is_dir($projectFolder)) {
             try {
                 $old = umask(0);
-                if (!mkdir($projectFolder, 0755)) {
+                if (!mkdir($projectFolder, 0775)) {
                     @error_log('GL ENGINE ERROR - log folder "' . $projectFolder . '" does not exists and was unable to create it, please fix it to see GL system logs');
                     if ($engineForceStop) {
                         die(PHP_EOL . 'Engine force stop...' . PHP_EOL);
@@ -231,6 +229,7 @@ class Log
             . ' *' . PHP_EOL;
 
         file_put_contents($fileLink, $standartText, FILE_APPEND);
+        chmod($fileLink, 0775);
         return true;
     }
 
