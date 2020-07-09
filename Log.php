@@ -48,7 +48,9 @@ class Log
             $projectFolder = $_SERVER['DOCUMENT_ROOT'];
         }
 
-        $filename .= '.log';
+        if (strtolower(substr($filename, -4)) != '.log') {
+            $filename .= '.log';
+        }
         $fileLink = $projectFolder . '/___' . $filename;
 
         if ($displayErrors) {
