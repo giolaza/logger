@@ -11,9 +11,9 @@ composer require giolaza/logger
 ## Configuration
 
 ```php
-define('GIOLAZA_SHOW_ERRORS', false, 1);
-define('GIOLAZA_SAVE_ERRORS', true, 1);
-define('GIOLAZA_LOGS_FOLDER', __DIR__ . '/../___productionLogs', 1);
+define('GIOLAZA_SHOW_ERRORS', false);
+define('GIOLAZA_SAVE_ERRORS', true);
+define('GIOLAZA_LOGS_FOLDER', __DIR__ . '/../___productionLogs');
 ```
 
 Constant `GIOLAZA_SHOW_ERRORS` defines display detail information about error or not. if value is `false` engine will print `something went wrong`.
