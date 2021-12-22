@@ -3,7 +3,6 @@
 /**
  * Log.php
  *
- * @category   System
  * @package    GL
  * @author     Giorgi Lazashvili <giolaza@gmail.com>
  *
@@ -32,21 +31,12 @@ class Log
      * @param string $filename
      * @param bool $engineForceStop
      * @param bool $displayErrors
-     * @throws Exception
+     * @return void
      */
-    public static function logError($text, $filename = 'logs.php', $engineForceStop = true, $displayErrors = true)
+    public static function logError($text, string $filename = 'logs.php', bool $engineForceStop = true, bool $displayErrors = true)
     {
-        if (defined('GIOLAZA_SAVE_ERRORS')) {
-            $saveErrors = GIOLAZA_SAVE_ERRORS;
-        } else {
-            $saveErrors = true;
-        }
-
-        if (defined('GIOLAZA_LOGS_FOLDER')) {
-            $projectFolder = GIOLAZA_LOGS_FOLDER;
-        } else {
-            $projectFolder = $_SERVER['DOCUMENT_ROOT'];
-        }
+        $saveErrors = defined('GIOLAZA_SAVE_ERRORS') ? GIOLAZA_SAVE_ERRORS : true;
+        $projectFolder = defined('GIOLAZA_LOGS_FOLDER') ? GIOLAZA_LOGS_FOLDER : $_SERVER['DOCUMENT_ROOT'];
 
         if (strtolower(substr($filename, -4)) != '.log') {
             $filename .= '.log';
@@ -93,20 +83,19 @@ class Log
 
         /**  check if file exists */
         if (!file_exists($fileLink)) {
-            //fill with standart headers
+            //fill with standard headers
             if (!self::fill_empty($fileLink, $filename)) {
                 @error_log('GL ENGINE ERROR - unable to create log file "' . $fileLink . '", please fix it to see GL system logs');
+                //file was not created, nothing to do next
                 if ($engineForceStop) {
                     die(PHP_EOL . 'Engine force stop...' . PHP_EOL);
                 } else {
                     return;
                 }
-                //file was not created, nothing to do next
             }
-
         }
 
-        /** check if can write in file */
+        /** check if file is writable */
         if (!is_writable($fileLink)) {
             @error_log('GL ENGINE ERROR - file "' . $fileLink . '" is not writable, please fix it to see GL system logs');
             if ($engineForceStop) {
@@ -118,7 +107,7 @@ class Log
 
         //check if file is empty
         if (filesize($fileLink) < 100) {
-            self::fill_empty($fileLink, $filename); //fill with standart headers
+            self::fill_empty($fileLink, $filename); //fill with standard headers
         }
 
         //start writing
@@ -139,12 +128,10 @@ class Log
         }
 
 
-        $textToWrite = '';
-
-        $textToWrite .= self::logLines(130, 2, '*');
+        $textToWrite = self::logLines(130, 2, '*');
         //save times
         $textToWrite .= self::logTitle('TIME');
-        $textToWrite .= 'Microtime - ' . microtime(true) . PHP_EOL . 'Date - ' . date('r') . PHP_EOL . PHP_EOL;
+        $textToWrite .= 'Micro-time - ' . microtime(true) . PHP_EOL . 'Date - ' . date('r') . PHP_EOL . PHP_EOL;
         $textToWrite .= self::logLines(100, 1);
 
         //save error
@@ -183,11 +170,7 @@ class Log
      */
     public static function showLog($string)
     {
-        if (defined('GIOLAZA_SHOW_ERRORS')) {
-            $showErrors = GIOLAZA_SHOW_ERRORS;
-        } else {
-            $showErrors = false;
-        }
+        $showErrors = defined('GIOLAZA_SHOW_ERRORS') && GIOLAZA_SHOW_ERRORS;
 
         $text = PHP_EOL
             . '<!-- ----------------------------------------------------------------------------- -->' . PHP_EOL
@@ -217,9 +200,9 @@ class Log
      * @param $filename
      * @return bool
      */
-    public static function fill_empty($fileLink, $filename)
+    public static function fill_empty($fileLink, $filename): bool
     {
-        $standartText = '<?php die();' . PHP_EOL . '/**' . PHP_EOL
+        $standardText = '<?php die();' . PHP_EOL . '\/**' . PHP_EOL
             . ' * ' . $filename . PHP_EOL
             . ' *' . PHP_EOL
             . ' * @category   System' . PHP_EOL
@@ -230,8 +213,9 @@ class Log
             . ' *' . PHP_EOL
             . ' *' . PHP_EOL;
 
-        file_put_contents($fileLink, $standartText, FILE_APPEND);
+        file_put_contents($fileLink, $standardText, FILE_APPEND);
         chmod($fileLink, 0775);
+
         return true;
     }
 
@@ -241,7 +225,7 @@ class Log
      * @param string $symbol
      * @return string
      */
-    public static function logLines($x, $y, $symbol = '-')
+    public static function logLines($x, $y, string $symbol = '-'): string
     {
         $text = PHP_EOL . PHP_EOL;
         for ($i = 0; $i < $y; $i++) {
@@ -260,12 +244,13 @@ class Log
      * @param string $symbol
      * @return string
      */
-    public static function logTitle($textSTR, $symbol = '*')
+    public static function logTitle($textSTR, string $symbol = '*'): string
     {
         $text = PHP_EOL . PHP_EOL;
         $text .= $symbol . $symbol . $symbol;
         $text .= strtoupper($textSTR);
         $text .= PHP_EOL;
+
         return $text;
     }
 }
