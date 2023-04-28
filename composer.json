@@ -1,21 +1,24 @@
 {
-    "name": "giolaza/logger",
-    "type": "library",
-    "version": "1.0.8",
-    "authors": [
-        {
-            "name": "Giorgi Lazashvili",
-            "email": "giolaza@gmail.com"
-        }
-    ],
-    "require": {
-        "php": ">=7.0.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "GioLaza\\Logger\\": ""
-        }
-    },
-    "license": "MIT",
-    "description": "Server logs library"
+  "name": "giolaza/logger",
+  "type": "library",
+  "version": "1.0.9",
+  "description": "Server .logs library",
+  "authors": [
+    {
+      "name": "Giorgi Lazashvili",
+      "email": "giolaza@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "GioLaza\\Logger\\": ""
+    }
+  },
+  "license": "MIT",
+  "require-dev": {
+    "phpunit/phpunit": "^8.5"
+  }
 }
